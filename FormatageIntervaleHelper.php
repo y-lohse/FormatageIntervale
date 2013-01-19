@@ -20,7 +20,16 @@ class FormatageIntervaleHelper extends AppHelper{
 							'November'=>'Novembre',
 							'December'=>'Décembre');
 	
-	public function formate(DateTime $debut, DateTime $fin){
+	private $jours = array('Sunday'=>'Dimanche',
+							'Monday'=>'Lundi',
+							'Thursday'=>'Mardi',
+							'Wednesday'=>'Mercredi',
+							'Tuesday'=>'Jeudi',
+							'Friday'=>'Vendredi',
+							'Saturday'=>'Samedi');
+	
+	public function formate(DateTime $debut, DateTime $fin = NULL){
+		if ($fin === NULL) $fin = $debut;
 		$difference = (int)$fin->format('U')-(int)$debut->format('U');
 		$intervaleString = '';
 		
@@ -41,7 +50,7 @@ class FormatageIntervaleHelper extends AppHelper{
 			$intervaleString = sprintf($this->intervaleDate, $debut->format($this->formatDate), $fin->format($this->formatDate)).' '.sprintf($this->intervaleHeure, $debut->format($this->formatHeure), $fin->format($this->formatHeure));
 		}
 		
-		return str_replace(array_keys($this->mois), $this->mois, $intervaleString);
+		return str_replace(array_merge(array_keys($this->mois), array_keys($this->jours)), array_merge($this->mois, $this->jours), $intervaleString);
 	}
 }
 

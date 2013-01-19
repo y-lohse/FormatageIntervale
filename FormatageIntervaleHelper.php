@@ -33,21 +33,26 @@ class FormatageIntervaleHelper extends AppHelper{
 		$difference = (int)$fin->format('U')-(int)$debut->format('U');
 		$intervaleString = '';
 		
+		$debutDate = $debut->format($this->formatDate);
+		$debutHeure = $debut->format($this->formatHeure);
+		$finDate = $fin->format($this->formatDate);
+		$finHeure = $fin->format($this->formatHeure);
+		
 		if ($difference === 0){
 			//même jour, même heure
-			$intervaleString = sprintf($this->uniqueDate, $debut->format($this->formatDate));
+			$intervaleString = sprintf($this->uniqueDate, $debutDate);
 		}
-		else if ($difference < 60*60*24){
+		else if ($difference < 86400){
 			//même jour, pas même heure
-			$intervaleString = sprintf($this->uniqueDate, $debut->format($this->formatDate)).' '.sprintf($this->intervaleHeure, $debut->format($this->formatHeure), $fin->format($this->formatHeure));
+			$intervaleString = sprintf($this->uniqueDate, $debutDate).' '.sprintf($this->intervaleHeure, $debutHeure, $finHeure);
 		}
-		else if ($difference%(60*60*24) === 0){
+		else if ($difference%(86400) === 0){
 			//pas même jour, même heure
-			$intervaleString = sprintf($this->intervaleDate, $debut->format($this->formatDate), $fin->format($this->formatDate));
+			$intervaleString = sprintf($this->intervaleDate, $debutDate, $finDate);
 		}
 		else {
 			//pas même jour, pas même heure
-			$intervaleString = sprintf($this->intervaleDate, $debut->format($this->formatDate), $fin->format($this->formatDate)).' '.sprintf($this->intervaleHeure, $debut->format($this->formatHeure), $fin->format($this->formatHeure));
+			$intervaleString = sprintf($this->intervaleDate, $debutDate, $finDate).' '.sprintf($this->intervaleHeure, $debutHeure, $finHeure);
 		}
 		
 		return str_replace(array_merge(array_keys($this->mois), array_keys($this->jours)), array_merge($this->mois, $this->jours), $intervaleString);

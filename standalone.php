@@ -7,7 +7,8 @@ function formatage(DateTime $debut, DateTime $fin = NULL, Array $options = array
 						'intervaleDate'=>'Du %1$s au %2$s',
 						'intervaleHeure'=>'de %1$s à %2$s',
 						'formatDate'=>'j F',
-						'formatHeure'=>'H\hi');
+						'formatHeure'=>'H\hi',
+						'forceHeures'=>false);
 	$options = array_merge($defaults, $options);
 	
 	$mois = array(	'January'=>'Janvier',
@@ -42,6 +43,7 @@ function formatage(DateTime $debut, DateTime $fin = NULL, Array $options = array
 	if ($difference === 0){
 		//même jour, même heure
 		$intervaleString = sprintf($options['uniqueDate'], $debutDate);
+		if ($options['forceHeures']) $intervaleString .= ' '.sprintf($options['uniqueHeure'], $debutHeure);
 	}
 	else if ($difference < 86400){
 		//même jour, pas même heure
@@ -50,6 +52,7 @@ function formatage(DateTime $debut, DateTime $fin = NULL, Array $options = array
 	else if ($difference%(86400) === 0){
 		//pas même jour, même heure
 		$intervaleString = sprintf($options['intervaleDate'], $debutDate, $finDate);
+		if ($options['forceHeures']) $intervaleString .= ' '.sprintf($options['uniqueHeure'], $debutHeure);
 	}
 	else {
 		//pas même jour, pas même heure

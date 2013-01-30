@@ -6,6 +6,7 @@ class FormatageIntervaleHelper extends AppHelper{
 	public $intervaleHeure = 'de %1$s à %2$s';
 	public $formatDate = 'j F';
 	public $formatHeure = 'H\hi';
+	public $forceHeures = false;
 	
 	private $mois = array(	'January'=>'Janvier',
 							'February'=>'Février',
@@ -41,6 +42,7 @@ class FormatageIntervaleHelper extends AppHelper{
 		if ($difference === 0){
 			//même jour, même heure
 			$intervaleString = sprintf($this->uniqueDate, $debutDate);
+			if ($this->forceHeures) $intervaleString .= ' '.sprintf($this->uniqueHeure, $debutHeure);
 		}
 		else if ($difference < 86400){
 			//même jour, pas même heure
@@ -49,6 +51,7 @@ class FormatageIntervaleHelper extends AppHelper{
 		else if ($difference%(86400) === 0){
 			//pas même jour, même heure
 			$intervaleString = sprintf($this->intervaleDate, $debutDate, $finDate);
+			if ($this->forceHeures) $intervaleString .= ' '.sprintf($this->uniqueHeure, $debutHeure);
 		}
 		else {
 			//pas même jour, pas même heure

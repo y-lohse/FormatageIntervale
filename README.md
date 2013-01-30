@@ -71,7 +71,7 @@ restent identiques. Ici l'exemple se base sur standalone.php mais le principe es
 
 ### Configurer les options
 
-La fonction peut prendre un 3ème paramètre sous forme de tableau avec des optionsdedans. 
+La fonction peut prendre un 3ème paramètre sous forme de tableau avec des options dedans. 
 En gros, comme ca :
 
 ```php
@@ -103,6 +103,36 @@ echo formatage($debut, $debut, $options);//Le Vendredi 21 Décembre
 ```
 
 Le fonctionnement pour le format de l'heure est identique.
+
+Par défaut, si les 2 dates ont exactement le même tronçon d'heure (ie. même heure, minute, seconde, etc)
+la partie heure ne sera pas affichée, seulement la date.
+
+```php
+$debut = new DateTime();
+$debut->setDate(2012, 12, 21);
+$debut->setTime(20, 0, 0);
+$fin = new DateTime();
+$fin->setDate(2012, 12, 22);
+$fin->setTime(20, 0, 0);
+
+include 'standalone.php';
+echo formatage($debut, $fin);//Affiche Du 21 Décembre au 22 Décembre
+```
+
+Vous pouvez forcer l'affichage de l'heure avec l'option __forceHeures__ :
+
+```php
+$debut = new DateTime();
+$debut->setDate(2012, 12, 21);
+$debut->setTime(20, 0, 0);
+$fin = new DateTime();
+$fin->setDate(2012, 12, 22);
+$fin->setTime(20, 0, 0);
+
+include 'standalone.php';
+$options= array('forceHeures'=>true);
+echo formatage($debut, $fin, $options);//Affiche Du 21 Décembre au 22 Décembre à 20h00
+```
 
 ### Gérer les mots de liaison
 
